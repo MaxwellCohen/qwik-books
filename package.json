@@ -1,0 +1,48 @@
+{
+  "name": "qwik-books",
+  "description": "Goodreads catalog demo built with Qwik City",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "qwik build",
+    "build.client": "vite build",
+    "build.server": "node scripts/build-server.mjs",
+    "build.types": "tsc --incremental --noEmit",
+    "deploy:cloudflare": "CLOUDFLARE=1 pnpm build && wrangler deploy",
+    "deploy:netlify": "NETLIFY=1 npx --yes netlify-cli deploy --prod --build",
+    "deploy:vercel": "VERCEL=1 pnpm build && npx --yes vercel deploy --prebuilt --prod --yes",
+    "dev": "node --env-file-if-exists=.env ./node_modules/vite/bin/vite.js --mode ssr --port 3000",
+    "preview:cloudflare": "CLOUDFLARE=1 pnpm build && wrangler dev",
+    "start": "node --env-file-if-exists=.env server/entry.express.js",
+    "typecheck": "tsc --noEmit",
+    "qwik": "qwik"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.2.0",
+    "clsx": "^2.1.1",
+    "drizzle-orm": "^0.45.4",
+    "express": "4.22.0",
+    "tailwind-merge": "^3.7.0",
+    "thumbhash": "^0.1.1"
+  },
+  "devDependencies": {
+    "@builder.io/qwik": "^1.20.4",
+    "@builder.io/qwik-city": "^1.20.4",
+    "@cloudflare/workers-types": "^4.20251228.0",
+    "@netlify/edge-functions": "^2.0.0",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/express": "^4.17.19",
+    "@types/node": "^22.10.2",
+    "netlify-cli": "^15.0.0",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.0",
+    "undici": "*",
+    "vercel": "^29.1.1",
+    "vite": "^7.3.0",
+    "vite-tsconfig-paths": "^4.2.1",
+    "wrangler": "^4.162.0"
+  }
+}

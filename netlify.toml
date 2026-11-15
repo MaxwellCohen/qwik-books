@@ -1,0 +1,7 @@
+[build]
+  command = "NETLIFY=1 pnpm run build"
+  publish = "dist"
+  edge_functions = ".netlify/edge-functions"
+
+[build.environment]
+  NODE_VERSION = "24"
