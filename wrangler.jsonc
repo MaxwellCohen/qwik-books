@@ -8,6 +8,9 @@
     "binding": "ASSET",
     "directory": "./dist"
   },
+  "kv_namespaces": [
+    { "binding": "CATALOG_CACHE", "id": "85b26e263659434997827b06c8452bda" }
+  ],
   "observability": {
     "enabled": true
   }
