@@ -21,7 +21,11 @@
     "qwik": "qwik"
   },
   "dependencies": {
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/geist-mono": "^5.3.0",
     "@neondatabase/serverless": "^1.2.0",
+    "@netlify/blobs": "^11.1.9",
+    "@vercel/functions": "^3.11.3",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.4",
     "express": "4.22.0",

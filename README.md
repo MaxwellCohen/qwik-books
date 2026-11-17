@@ -29,3 +29,14 @@ Copy `.env.example` to `.env`:
 - The build picks the host adapter from the flag above; with no flag it targets Node (Express).
 - `POSTGRES_URL` is set on every host (Vercel and Netlify environment variable, Cloudflare secret). Without it the app serves the preview catalog.
 - Manual deploys: `pnpm deploy:vercel`, `pnpm deploy:netlify`, `pnpm deploy:cloudflare`.
+
+### `optimized` branch
+
+| Host | URL |
+| --- | --- |
+| Vercel | https://qwik-books-optimized.vercel.app |
+| Netlify | https://qwik-books-max-optimized.netlify.app |
+| Cloudflare Workers | https://qwik-books-optimized.to-email-max.workers.dev |
+
+- Self-hosted Geist fonts (`@fontsource-variable/geist`, `@fontsource-variable/geist-mono`) bundled and served from the app origin; Google Fonts links removed.
+- Catalog queries cached for 1 hour (in-memory with in-flight de-dup, plus Vercel runtime cache / Netlify Blobs / Cloudflare KV `CATALOG_CACHE` where available, all failing soft); hashed assets served `immutable`, HTML uses the per-host `Cache-Control` policy.

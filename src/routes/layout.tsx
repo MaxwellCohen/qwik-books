@@ -1,11 +1,12 @@
 import { Slot, component$ } from '@builder.io/qwik'
 import type { RequestHandler } from '@builder.io/qwik-city'
 import { MobileBookSidebarProvider, MobileBookSidebarTrigger } from '@/components/mobile-book-sidebar'
+import { hostDocumentCacheControl } from '@/lib/catalog-cache'
 import { BookSearch } from '@/features/book/components/book-search'
 import { BookSidebar } from '@/features/book/components/book-sidebar'
 
-export const onGet: RequestHandler = async ({ cacheControl }) => {
-  cacheControl({ public: false, noStore: true, noCache: true, maxAge: 0 })
+export const onGet: RequestHandler = async ({ headers }) => {
+  headers.set('Cache-Control', hostDocumentCacheControl())
 }
 
 export default component$(() => {
