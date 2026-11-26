@@ -1,8 +1,8 @@
 {
   "framework": "qwik-city",
   "repo": "qwik-books",
-  "commit": "9edf0a01b68a48b78c9be2ec093ef95354a5e2b3",
-  "ranAt": "2026-11-26T05:03:39.352Z",
+  "commit": "001cce56c4272917249b88c399fb445592740ba9",
+  "ranAt": "2026-11-26T05:35:53.429Z",
   "results": {
     "css-inlining": {
       "claimedLabel": "first-party",
@@ -50,7 +50,7 @@
       "claimedLabel": "first-party",
       "status": "pass",
       "method": "nodeServerAdapter({ ssg: { include: ['/feature-tests/render-modes/static'] } }) + staticFile middleware; other route SSR per request",
-      "evidence": "SSG: dist/feature-tests/render-modes/static/index.html exists; stamp 1795669368822-feo1yw identical on 2 requests; SSR: stamp changes per request (1795669416521-gxl6k9 -> 1795669416537-fg9uwc); note: with trailingSlash:false, /static (no slash) falls through to SSR in the node adapter",
+      "evidence": "SSG: dist/feature-tests/render-modes/static/index.html exists; stamp 1795671326418-6nuqtn identical on 2 requests; SSR: stamp changes per request (1795671351464-odsgrj -> 1795671351471-sei6kr); note: with trailingSlash:false, /static (no slash) falls through to SSR in the node adapter",
       "test": "feature-tests/render-modes.spec.ts"
     },
     "reactivity": {
