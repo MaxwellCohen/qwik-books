@@ -1,0 +1,6 @@
+/* Route-only stylesheet, inlined via useStyles$ (see index.tsx). */
+.ft-css-inline-marker {
+  color: rgb(1, 2, 3);
+  border: 3px dashed rgb(1, 2, 3);
+  padding: 12px;
+}

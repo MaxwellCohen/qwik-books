@@ -10,6 +10,10 @@ export default extendConfig(baseConfig, () => {
         input: ["src/entry.express.tsx", "@qwik-city-plan"],
       },
     },
-    plugins: [nodeServerAdapter({ name: "express" })],
+    plugins: [nodeServerAdapter({
+        name: "express",
+        // Feature tests (render-modes): prerender only this route; everything else stays SSR.
+        ssg: { include: ["/feature-tests/render-modes/static"], origin: "http://localhost" },
+      })],
   };
 });

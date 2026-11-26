@@ -28,7 +28,7 @@ const assetsDir = join(distDir, "assets");
 const PORT = process.env.PORT ?? 3000;
 
 // Create the Qwik City Node middleware
-const { router, notFound } = createQwikCity({
+const { router, notFound, staticFile } = createQwikCity({
   render,
   qwikCityPlan,
   // getOrigin(req) {
@@ -75,6 +75,9 @@ app.use(
   express.static(assetsDir, { immutable: true, maxAge: "1y" }),
 );
 app.use(express.static(distDir, { redirect: false }));
+
+// Serve SSG output (e.g. /feature-tests/render-modes/static/) before falling back to SSR.
+app.use(staticFile);
 
 // Use Qwik City's page and endpoint request handler
 app.use(router);
