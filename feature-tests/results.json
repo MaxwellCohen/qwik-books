@@ -1,0 +1,85 @@
+{
+  "framework": "qwik-city",
+  "repo": "qwik-books",
+  "commit": "9edf0a01b68a48b78c9be2ec093ef95354a5e2b3",
+  "ranAt": "2026-11-26T05:03:39.352Z",
+  "results": {
+    "css-inlining": {
+      "claimedLabel": "first-party",
+      "status": "pass",
+      "method": "useStyles$(css) with a `?inline` CSS import; Qwik SSR emits it as <style q:style> (built-in, no package)",
+      "evidence": "inline <style q:style=\"x988p1-0\" hidden> contains .ft-css-inline-marker; 1 <link rel=stylesheet> (global Tailwind) checked: none contain the route CSS; computed color rgb(1,2,3) applied in browser",
+      "test": "feature-tests/css-inlining.spec.ts"
+    },
+    "font-optimization": {
+      "claimedLabel": "third-party",
+      "status": "pass",
+      "method": "@fontsource/lora (self-hosted, font-display: swap); preload added automatically by qwikVite's built-in font preload (disableFontPreload opt-out)",
+      "evidence": "Lora loaded from same origin (/assets/Yfa97ytg-lora-latin-700-normal.woff); 0 Google Fonts requests; <link rel=\"preload\" as=\"font\"> for lora woff2 emitted automatically by qwikVite (no preload code in route); @font-face for Lora has font-display:swap (from Fontsource CSS)",
+      "test": "feature-tests/font-optimization.spec.ts"
+    },
+    "image-pipeline": {
+      "claimedLabel": "first-party",
+      "status": "pass",
+      "method": "Built-in `import Img from './hero.jpg?jsx'` (qwikCity() bundles vite-imagetools)",
+      "evidence": "srcset widths [200,400,600,800,1200], width=1200 height=750, offscreen img loading=lazy decoding=async; GET /assets/Ddc2Tfo6-hero.webp -> image/webp (source was a 1600x1000 JPEG)",
+      "test": "feature-tests/image-pipeline.spec.ts"
+    },
+    "caching": {
+      "claimedLabel": "first-party",
+      "status": "pass",
+      "method": "cacheControl({ public, maxAge: 4, sMaxAge: 60, staleWhileRevalidate: 120 }) in onGet (page + JSON endpoint)",
+      "evidence": "/feature-tests/caching Cache-Control: max-age=4, s-maxage=60, public, stale-while-revalidate=120; /feature-tests/caching/data Cache-Control: max-age=4, s-maxage=60, public, stale-while-revalidate=120; browser cache reuse within TTL (counter 2 == 2); after max-age: stale 2 served (SWR), background revalidation -> fresh counter 3",
+      "test": "feature-tests/caching.spec.ts"
+    },
+    "route-prefetching": {
+      "claimedLabel": "first-party",
+      "status": "pass",
+      "method": "<Link> from @builder.io/qwik-city with default prefetch (visible task + hover/focus)",
+      "evidence": "scroll into view -> GET /feature-tests/route-prefetching/target/q-data.json before any click; q-data.json requests: 2 (first before click); SPA nav rendered loader data",
+      "test": "feature-tests/route-prefetching.spec.ts"
+    },
+    "islands": {
+      "claimedLabel": "first-party",
+      "status": "pass",
+      "method": "Resumability: a static component$ and an interactive component$ counter; no islands API needed",
+      "evidence": "counter went 0->3 after resume; 32 JS responses, none contain the static component code (marker exists only in unfetched 1 build chunk(s))",
+      "test": "feature-tests/islands.spec.ts"
+    },
+    "render-modes": {
+      "claimedLabel": "first-party",
+      "status": "pass",
+      "method": "nodeServerAdapter({ ssg: { include: ['/feature-tests/render-modes/static'] } }) + staticFile middleware; other route SSR per request",
+      "evidence": "SSG: dist/feature-tests/render-modes/static/index.html exists; stamp 1795669368822-feo1yw identical on 2 requests; SSR: stamp changes per request (1795669416521-gxl6k9 -> 1795669416537-fg9uwc); note: with trailingSlash:false, /static (no slash) falls through to SSR in the node adapter",
+      "test": "feature-tests/render-modes.spec.ts"
+    },
+    "reactivity": {
+      "claimedLabel": "first-party",
+      "status": "pass",
+      "method": "useSignal passed directly into JSX ({count}) vs. reading count.value in render (contrast)",
+      "evidence": "{count} binding: text 0->3 after 3 clicks, component body ran 0 times on client (1 total, on server); control: component reading count.value in its body re-ran 1x on client, so the counter works",
+      "test": "feature-tests/reactivity.spec.ts"
+    },
+    "bundle-analysis": {
+      "claimedLabel": "third-party",
+      "status": "pass",
+      "method": "rollup-plugin-visualizer added to vite.config.ts when ANALYZE=1; `ANALYZE=1 vite build --outDir <tmp>`",
+      "evidence": "stats.html (272 KB treemap) generated, lists q-*.js chunks",
+      "test": "feature-tests/bundle-analysis.spec.ts"
+    },
+    "third-party-scripts": {
+      "claimedLabel": "first-party",
+      "status": "pass",
+      "method": "@qwik.dev/partytown: partytownSnippet() in route head (as QwikPartytown does), partytownVite copies lib, script type=\"text/partytown\"",
+      "evidence": "third-party.js is only a <script type=\"text/partytown\"> in <body> (never parser-blocking); Partytown snippet inline in <head>; script ran via Partytown: worker started (1), script fetched 1x, type -> \"text/partytown-x\", DOM write proxied to <html data-ft-third-party=\"ran\">, main-window global absent (worker sandbox)",
+      "test": "feature-tests/third-party-scripts.spec.ts"
+    },
+    "multi-host-deployment": {
+      "claimedLabel": "first-party",
+      "status": "pass",
+      "method": "Qwik City adapters in adapters/*: node-server (express), vercel-edge, netlify-edge; built in an isolated copy",
+      "evidence": "built 3 targets: express -> server/entry.express.js, vercel-edge -> .vercel/output/config.json, netlify-edge -> .netlify/edge-functions/manifest.json",
+      "test": "feature-tests/multi-host-deployment.spec.ts"
+    }
+  }
+}
