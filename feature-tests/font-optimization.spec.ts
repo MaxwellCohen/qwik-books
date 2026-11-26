@@ -15,7 +15,7 @@ test('font is self-hosted, uses font-display, and is preloaded', async ({ page, 
   expect(external).toEqual([])
   const lora = fontReqs.filter((u) => u.includes('lora'))
   expect(lora.length).toBeGreaterThan(0)
-  for (const u of lora) expect(new URL(u).host).toBe('localhost:4123')
+  for (const u of lora) expect(new URL(u).host).toBe(new URL(page.url()).host)
   evidence(`Lora loaded from same origin (${new URL(lora[0]).pathname}); 0 Google Fonts requests`)
 
   const html = await (await request.get('/feature-tests/font-optimization')).text()
