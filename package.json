@@ -18,11 +18,13 @@
     "preview:cloudflare": "CLOUDFLARE=1 pnpm build && wrangler dev",
     "start": "node --env-file-if-exists=.env server/entry.express.js",
     "typecheck": "tsc --noEmit",
-    "qwik": "qwik"
+    "qwik": "qwik",
+    "test:features": "node feature-tests/run.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",
     "@fontsource-variable/geist-mono": "^5.3.0",
+    "@fontsource/lora": "^5.3.0",
     "@neondatabase/serverless": "^1.2.0",
     "@netlify/blobs": "^11.1.9",
     "@vercel/functions": "^3.11.3",
@@ -37,10 +39,13 @@
     "@builder.io/qwik-city": "^1.20.4",
     "@cloudflare/workers-types": "^4.20251228.0",
     "@netlify/edge-functions": "^2.0.0",
+    "@playwright/test": "^1.65.1",
+    "@qwik.dev/partytown": "^1.0.5",
     "@tailwindcss/vite": "^4.1.18",
     "@types/express": "^4.17.19",
     "@types/node": "^22.10.2",
     "netlify-cli": "^15.0.0",
+    "rollup-plugin-visualizer": "^7.3.0",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.0",
     "undici": "*",

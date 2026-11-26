@@ -60,3 +60,8 @@ functions/**/*.js
 
 .dev.vars*
 !.dev.vars.example
+
+# Feature tests
+/test-results
+/feature-tests/test-results
+/playwright-report
