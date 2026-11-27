@@ -15,7 +15,7 @@ node feature-tests/run.mjs --skip-build   # reuse an existing build
 | Spec | What it proves |
 | --- | --- |
 | css-inlining | `useStyles$(css?inline)` CSS is in an inline `<style>`; no `<link rel=stylesheet>` contains it; style applies. |
-| font-optimization | Fontsource Lora served same-origin, 0 Google Fonts requests, `@font-face` has `font-display:swap`, qwikVite auto-emits `<link rel=preload as=font>`. |
+| font-optimization | Fontsource Lora served same-origin, 0 Google Fonts requests, `@font-face` has `font-display:swap`, `<link rel=preload as=font>` from the route's `head.links` (qwikVite auto preload is off: it preloaded every font file on every page). |
 | image-pipeline | `?jsx` import renders `<img>` with ≥2 srcset widths, width/height, `loading=lazy` offscreen; srcset URL is `image/webp`. |
 | caching | `cacheControl()` sets `public, max-age=4, s-maxage=60, stale-while-revalidate=120`; browser reuses the cached counter within TTL, serves stale then fresh after max-age. |
 | route-prefetching | No `q-data.json` for the target while the `<Link>` is offscreen; scrolling it into view fetches it before the click; SPA nav shows loader data. |

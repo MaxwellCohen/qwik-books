@@ -1,5 +1,6 @@
 import { component$ } from '@builder.io/qwik'
 import { useDocumentHead } from '@builder.io/qwik-city'
+import geistLatinUrl from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url'
 
 const description =
   'Browse two million Goodreads books with Qwik City, server-rendered search, and URL-driven filters.'
@@ -21,6 +22,8 @@ export const RouterHead = component$(() => {
       <meta property="og:title" content="Qwik Books" />
       <meta property="og:type" content="website" />
       <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+      {/* qwikVite's automatic font preload is off (vite.config.ts); preload only the Latin Geist file. */}
+      <link rel="preload" href={geistLatinUrl} as="font" type="font/woff2" crossOrigin="" />
       <script dangerouslySetInnerHTML={themeScript} />
       {head.meta.map((m) => (
         <meta key={m.key} {...m} />

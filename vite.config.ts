@@ -26,7 +26,15 @@ export default defineConfig((): UserConfig => {
     plugins: [qwikCity({
       trailingSlash: false,
       platform
-    }), qwikVite(), tailwindcss(), tsconfigPaths({ root: "." }),
+    }), qwikVite({
+      // qwikVite preloads every font file in the build by default: all Geist / Geist Mono
+      // subsets plus the feature-test Lora (13 files, ~210 KB) on every page. Off here;
+      // router-head.tsx preloads only the Latin Geist file the pages render with.
+      disableFontPreload: true,
+      // Qwik inlines the global stylesheet when it is under this size (default 20 KB).
+      // The Tailwind build is ~39 KB, so raise it to drop the render-blocking request.
+      optimizerOptions: { inlineStylesUpToBytes: 60_000 },
+    }), tailwindcss(), tsconfigPaths({ root: "." }),
     // Feature tests: copies the Partytown lib to /~partytown (what `qwik add partytown` sets up).
     partytownVite({ dest: join(import.meta.dirname, "dist", "~partytown") }),
     ...analyzePlugins],

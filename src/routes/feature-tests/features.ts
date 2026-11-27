@@ -1,6 +1,6 @@
 export const FEATURES = [
   ['css-inlining', 'Route CSS inlined automatically (<20KB) into a <style> tag'],
-  ['font-optimization', 'Fontsource self-hosting; qwikVite auto font preload'],
+  ['font-optimization', 'Fontsource self-hosting; preload via DocumentHead links'],
   ['image-pipeline', 'Built-in ?jsx image import (vite-imagetools)'],
   ['caching', 'cacheControl() in onGet'],
   ['route-prefetching', '<Link> prefetch on visible/hover'],

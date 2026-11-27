@@ -1,12 +1,16 @@
 import { Slot, component$ } from '@builder.io/qwik'
 import type { RequestHandler } from '@builder.io/qwik-city'
 import { MobileBookSidebarProvider, MobileBookSidebarTrigger } from '@/components/mobile-book-sidebar'
-import { hostDocumentCacheControl } from '@/lib/catalog-cache'
+import { isVercelHost } from '@/lib/catalog-cache'
 import { BookSearch } from '@/features/book/components/book-search'
 import { BookSidebar } from '@/features/book/components/book-sidebar'
 
-export const onGet: RequestHandler = async ({ headers }) => {
-  headers.set('Cache-Control', hostDocumentCacheControl())
+// Matches next-books per host: Vercel revalidates every request, the other hosts don't store HTML.
+// (cacheControl() drops `maxAge: 0`, so `noCache` carries the revalidate-every-time meaning.)
+export const onGet: RequestHandler = async ({ cacheControl }) => {
+  cacheControl(
+    isVercelHost() ? { public: true, noCache: true } : { private: true, noCache: true, noStore: true },
+  )
 }
 
 export default component$(() => {

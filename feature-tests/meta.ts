@@ -8,7 +8,7 @@ export const META: Record<string, Meta> = {
   },
   'font-optimization': {
     claimedLabel: 'third-party',
-    method: "@fontsource/lora (self-hosted, font-display: swap); preload added automatically by qwikVite's built-in font preload (disableFontPreload opt-out)",
+    method: "@fontsource/lora (self-hosted, font-display: swap); preload from the route's DocumentHead links (qwikVite's automatic font preload is turned off with disableFontPreload because it preloads every font file in the build on every page)",
   },
   'image-pipeline': {
     claimedLabel: 'first-party',
