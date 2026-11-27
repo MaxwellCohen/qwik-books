@@ -23,14 +23,14 @@ test('font is self-hosted, uses font-display, and is preloaded', async ({ page, 
     .map((m) => m[0])
     .find((l) => /as="font"/.test(l) && /lora-latin-700-normal\.woff2/.test(l))
   expect(preload, '<link rel=preload as=font> for Lora').toBeTruthy()
-  evidence('<link rel="preload" as="font"> for lora woff2 emitted automatically by qwikVite (no preload code in route)')
+  evidence('<link rel="preload" as="font"> for lora woff2 emitted from the route DocumentHead links')
 
   const cssHrefs = [...html.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)].map((m) => m[1])
+  // The global stylesheet is inlined (inlineStylesUpToBytes), so check <style> tags too.
+  const sheets = [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((m) => m[1])
+  for (const href of cssHrefs) sheets.push(await (await request.get(href)).text())
   let face = ''
-  for (const href of cssHrefs) {
-    const css = await (await request.get(href)).text()
-    face ||= css.match(/@font-face\{[^}]*font-family:Lora[^}]*\}/)?.[0] ?? ''
-  }
+  for (const css of sheets) face ||= css.match(/@font-face\{[^}]*font-family:Lora[^}]*\}/)?.[0] ?? ''
   expect(face).toMatch(/font-display:swap/)
   evidence('@font-face for Lora has font-display:swap (from Fontsource CSS)')
 })

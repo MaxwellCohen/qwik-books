@@ -1,9 +1,10 @@
 import { component$ } from '@builder.io/qwik'
 import type { DocumentHead } from '@builder.io/qwik-city'
 // Third-party: Fontsource self-hosts the font files and its CSS sets font-display: swap.
-// Preload: no code here. qwikVite automatically adds <link rel="preload" as="font"> for every
-// font asset in the build output (opt-out: qwikVite({ disableFontPreload: true })).
+// Preload: qwikVite's automatic font preload is off in vite.config.ts (it preloaded every font
+// in the build on every page), so this route adds its own through Qwik City's head `links`.
 import '@fontsource/lora/latin-700.css'
+import loraUrl from '@fontsource/lora/files/lora-latin-700-normal.woff2?url'
 
 export default component$(() => (
   <div class="px-6 py-5">
@@ -14,4 +15,7 @@ export default component$(() => (
   </div>
 ))
 
-export const head: DocumentHead = { title: 'font-optimization · Feature tests' }
+export const head: DocumentHead = {
+  title: 'font-optimization · Feature tests',
+  links: [{ rel: 'preload', href: loraUrl, as: 'font', type: 'font/woff2', crossorigin: '' }],
+}

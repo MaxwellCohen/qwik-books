@@ -1,9 +1,6 @@
 import { getEnv } from '@/lib/runtime-env'
 
 export const CATALOG_CACHE_REVALIDATE_SECONDS = 3600
-export const VERCEL_DOCUMENT_CACHE_CONTROL = 'public, max-age=0, must-revalidate'
-export const PRIVATE_DOCUMENT_CACHE_CONTROL =
-  'private, no-cache, no-store, max-age=0, must-revalidate'
 
 const TTL_MS = CATALOG_CACHE_REVALIDATE_SECONDS * 1000
 
@@ -28,9 +25,8 @@ function isNetlify() {
   )
 }
 
-export function hostDocumentCacheControl(): string {
-  return isVercel() ? VERCEL_DOCUMENT_CACHE_CONTROL : PRIVATE_DOCUMENT_CACHE_CONTROL
-}
+/** Whether this request runs on Vercel (picks the document Cache-Control in routes/layout.tsx). */
+export const isVercelHost = isVercel
 
 function memoryGet<T>(key: string): T | undefined {
   const hit = memory.get(key) as Entry<T> | undefined

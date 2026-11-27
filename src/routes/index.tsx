@@ -1,4 +1,4 @@
-import { component$ } from '@builder.io/qwik'
+import { Resource, component$ } from '@builder.io/qwik'
 import { routeLoader$, type DocumentHead } from '@builder.io/qwik-city'
 import { Button } from '@/components/ui/button'
 import { ErrorState } from '@/components/ui/error-state'
@@ -13,32 +13,38 @@ type CatalogData =
   | { error: null; books: BookSummary[]; totalResults: number; searchParams: SearchParams }
   | { error: string; books: BookSummary[]; totalResults: number; searchParams: SearchParams }
 
-export const useCatalog = routeLoader$<CatalogData>(async ({ url }) => {
+// Returning a function defers the loader (Qwik City streaming/deferred loaders): the document
+// head, sidebar and header stream first, and the grid streams in when the queries resolve.
+export const useCatalog = routeLoader$(({ url }) => {
   const searchParams = cleanSearch(parseSearchParams(Object.fromEntries(url.searchParams)))
-  try {
-    const { waitForApiDelay } = await import('@/lib/api-delay')
-    const { getBooksCount, getBooksPage } = await import('@/features/book/book-queries.server')
-    const query = toBookQuery(searchParams)
-    const delayMs = getApiDelayMs(searchParams)
-    const [books, totalResults] = await Promise.all([
-      waitForApiDelay(delayMs).then(() => getBooksPage(query)),
-      waitForApiDelay(delayMs).then(() => getBooksCount(toBookFilters(query))),
-    ])
-    return { error: null, books, totalResults, searchParams }
-  } catch (error) {
-    return {
-      error: error instanceof Error ? error.message : 'Unknown error',
-      books: [],
-      totalResults: 0,
-      searchParams,
+  return async (): Promise<CatalogData> => {
+    try {
+      const { waitForApiDelay } = await import('@/lib/api-delay')
+      const { getBooksCount, getBooksPage } = await import('@/features/book/book-queries.server')
+      const query = toBookQuery(searchParams)
+      const delayMs = getApiDelayMs(searchParams)
+      const [books, totalResults] = await Promise.all([
+        waitForApiDelay(delayMs).then(() => getBooksPage(query)),
+        waitForApiDelay(delayMs).then(() => getBooksCount(toBookFilters(query))),
+      ])
+      return { error: null, books, totalResults, searchParams }
+    } catch (error) {
+      return {
+        error: error instanceof Error ? error.message : 'Unknown error',
+        books: [],
+        totalResults: 0,
+        searchParams,
+      }
     }
   }
 })
 
 export default component$(() => {
   const catalog = useCatalog()
-  const data = catalog.value
+  return <Resource value={catalog} onResolved={(data) => <Catalog data={data} />} />
+})
 
+function Catalog({ data }: { data: CatalogData }) {
   if (data.error !== null) {
     return (
       <ErrorState body={data.error} title="Can't load books">
@@ -59,7 +65,7 @@ export default component$(() => {
       </footer>
     </div>
   )
-})
+}
 
 export const head: DocumentHead = {
   title: 'Books · Qwik Books',
